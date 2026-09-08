@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -13,9 +15,7 @@ const client = new Client({
 	],
 });
 
-
 client.prefix = '+';
-
 
 client.commands = new Collection();
 
@@ -25,9 +25,10 @@ const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('
 for (const file of commandFiles) {
 	const filePath = path.join(commandsPath, file);
 	const command = require(filePath);
+
 	if ('name' in command && 'execute' in command) {
 		client.commands.set(command.name, command);
-		
+
 		if (command.aliases) {
 			for (const alias of command.aliases) {
 				client.commands.set(alias, command);
@@ -38,13 +39,13 @@ for (const file of commandFiles) {
 	}
 }
 
-
 const eventsPath = path.join(__dirname, 'src', 'events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
 for (const file of eventFiles) {
 	const filePath = path.join(eventsPath, file);
 	const event = require(filePath);
+
 	if (event.once) {
 		client.once(event.name, (...args) => event.execute(...args));
 	} else {
@@ -52,8 +53,12 @@ for (const file of eventFiles) {
 	}
 }
 
-
 client.autoKhatChannels = new Set();
 
+// تسجيل دخول البوت من .env
+if (!process.env.DISCORD_BOT_TOKEN) {
+	console.error('❌ DISCORD_BOT_TOKEN غير موجود في ملف .env');
+	process.exit(1);
+}
 
-client.login(config.token);
+client.login(process.env.DISCORD_BOT_TOKEN);
