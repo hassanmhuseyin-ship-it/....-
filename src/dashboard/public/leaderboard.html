@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>السجل الذهبي | EnzoBot Leaderboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .leaderboard-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 30px;
+            background: rgba(30, 31, 34, 0.4);
+            backdrop-filter: blur(25px);
+            border-radius: 20px;
+            border: 1px solid var(--panel-border);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .lb-header {
+            margin-bottom: 40px;
+        }
+
+        .lb-header h1 {
+            font-size: 32px;
+            color: #fff;
+            margin-bottom: 10px;
+            display: inline-block;
+            background: linear-gradient(135deg, #f1c40f, #f39c12);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .lb-header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .lb-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: right;
+        }
+
+        .lb-item {
+            display: flex;
+            align-items: center;
+            background: rgba(43, 45, 49, 0.6);
+            border-radius: 12px;
+            padding: 15px 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .lb-item:hover {
+            transform: translateY(-2px);
+            background: rgba(43, 45, 49, 0.9);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Top 3 Stylings */
+        .lb-item.rank-1 {
+            background: linear-gradient(135deg, rgba(241, 196, 15, 0.2), rgba(243, 156, 18, 0.05));
+            border: 1px solid rgba(241, 196, 15, 0.3);
+        }
+        .lb-item.rank-2 {
+            background: linear-gradient(135deg, rgba(149, 165, 166, 0.2), rgba(127, 140, 141, 0.05));
+            border: 1px solid rgba(149, 165, 166, 0.3);
+        }
+        .lb-item.rank-3 {
+            background: linear-gradient(135deg, rgba(211, 84, 0, 0.2), rgba(230, 126, 34, 0.05));
+            border: 1px solid rgba(230, 126, 34, 0.3);
+        }
+
+        .lb-rank {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-secondary);
+            width: 40px;
+        }
+
+        .rank-1 .lb-rank { color: #f1c40f; text-shadow: 0 0 10px rgba(241, 196, 15, 0.5); font-size: 28px; }
+        .rank-2 .lb-rank { color: #bdc3c7; text-shadow: 0 0 10px rgba(189, 195, 199, 0.5); font-size: 26px;}
+        .rank-3 .lb-rank { color: #d35400; text-shadow: 0 0 10px rgba(211, 84, 0, 0.5); font-size: 26px;}
+
+        .lb-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-left: 20px;
+            border: 2px solid var(--panel-border);
+        }
+
+        .rank-1 .lb-avatar { border-color: #f1c40f; }
+        .rank-2 .lb-avatar { border-color: #bdc3c7; }
+        .rank-3 .lb-avatar { border-color: #d35400; }
+
+        .lb-info {
+            flex: 1;
+        }
+
+        .lb-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            margin: 0 0 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lb-xpbar {
+            width: 100%;
+            height: 6px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .lb-xploader {
+            height: 100%;
+            background: var(--blurple);
+            border-radius: 3px;
+        }
+
+        .rank-1 .lb-xploader { background: #f1c40f; }
+        .rank-2 .lb-xploader { background: #bdc3c7; }
+        .rank-3 .lb-xploader { background: #d35400; }
+
+        .lb-stats {
+            text-align: left;
+        }
+
+        .lb-lvl {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            display: block;
+        }
+
+        .lb-xp {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Top NavBar Link */
+        .home-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: rgba(255,255,255,0.05);
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+        .home-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+    <a href="/" class="home-btn"><i class="fa-solid fa-house"></i> الرئيسية</a>
+
+    <div class="leaderboard-container">
+        <div class="lb-header">
+            <h1><i class="fa-solid fa-trophy"></i> السجل الذهبي (Leaderboard)</h1>
+            <p id="server-name">أفضل المتفاعلين في السيرفر بناءً على النشاط الكتابي والصوتي 🏆</p>
+        </div>
+
+        <div id="loading" style="padding: 50px;">
+            <div class="spinner"></div>
+            <p style="margin-top: 15px; color: var(--text-secondary);">جاري جلب أبطال السيرفر...</p>
+        </div>
+
+        <div class="lb-list" id="lb-list" style="display: none;">
+            
+        </div>
+    </div>
+
+    <script>
+        async function loadLeaderboard() {
+            try {
+                const res = await fetch('/api/leaderboard');
+                const data = await res.json();
+                
+                if (!data.success) {
+                    alert('فشل جلب قائمة المتصدرين.');
+                    return;
+                }
+
+                if (data.guildName) {
+                    document.getElementById('server-name').innerText = `أفضل المتفاعلين في سيرفر ${data.guildName} 🏆`;
+                }
+
+                const listEl = document.getElementById('lb-list');
+                const loadingEl = document.getElementById('loading');
+                
+                listEl.innerHTML = '';
+                
+                if (data.leaderboard.length === 0) {
+                    listEl.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 30px;">لا يوجد تفاعل في السيرفر حتى الآن!</p>';
+                } else {
+                    data.leaderboard.forEach((user, index) => {
+                        const rank = index + 1;
+                        let rankClass = '';
+                        let rankIcon = `#${rank}`;
+                        
+                        if (rank === 1) { rankClass = 'rank-1'; rankIcon = '<i class="fa-solid fa-medal"></i>'; }
+                        if (rank === 2) { rankClass = 'rank-2'; rankIcon = '<i class="fa-solid fa-medal"></i>'; }
+                        if (rank === 3) { rankClass = 'rank-3'; rankIcon = '<i class="fa-solid fa-medal"></i>'; }
+
+                        const neededXP = (user.level + 1) * (user.level + 1) * 100;
+                        const currentLevelXP = user.totalXP - (user.level * user.level * 100);
+                        const progress = Math.min(100, Math.max(0, (currentLevelXP / neededXP) * 100));
+
+                        const itemHtml = `
+                            <div class="lb-item ${rankClass}">
+                                <div class="lb-rank">${rankIcon}</div>
+                                <img src="${user.avatar}" alt="Avatar" class="lb-avatar">
+                                <div class="lb-info">
+                                    <h3 class="lb-name">${user.username}</h3>
+                                    <div class="lb-xpbar">
+                                        <div class="lb-xploader" style="width: ${progress}%"></div>
+                                    </div>
+                                </div>
+                                <div class="lb-stats">
+                                    <span class="lb-lvl">LVL ${user.level}</span>
+                                    <span class="lb-xp">${user.totalXP.toLocaleString()} XP</span>
+                                </div>
+                            </div>
+                        `;
+                        listEl.innerHTML += itemHtml;
+                    });
+                }
+
+                loadingEl.style.display = 'none';
+                listEl.style.display = 'flex';
+
+            } catch (err) {
+                console.error('Error fetching leaderboard:', err);
+            }
+        }
+
+        loadLeaderboard();
+    </script>
+</body>
+</html>

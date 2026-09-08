@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnzoBot - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="loading" class="loading-overlay">
+        <div class="spinner"></div>
+        <p style="margin-top: 15px; color: var(--text-secondary);">جاري جلب بيانات السيرفر...</p>
+    </div>
+
+    <div class="background-animation">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+    
+    <div class="dashboard-wrapper">
+        
+        <aside class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <img src="https://cdn.discordapp.com/embed/avatars/0.png" id="nav-bot-avatar" alt="Bot Logo">
+                <h2 id="nav-bot-name">EnzoBot</h2>
+            </div>
+            
+            <div class="tabs-container">
+                <button class="tab-btn active" data-target="tab-channels"><i class="fa-solid fa-hashtag"></i> الرومات</button>
+                <button class="tab-btn" data-target="tab-roles"><i class="fa-solid fa-shield-halved"></i> الرتب</button>
+                <button class="tab-btn" data-target="tab-tickets"><i class="fa-solid fa-ticket"></i> التيكت</button>
+                <button class="tab-btn" data-target="tab-embeds" style="color: #5d9cec;"><i class="fa-solid fa-paper-plane"></i> صانع الإيمبد</button>
+                <button class="tab-btn" data-target="tab-role-buttons" style="color: #48c9b0;"><i class="fa-solid fa-fingerprint"></i> أزرار الرتب</button>
+                <button class="tab-btn" data-target="tab-autoresponders"><i class="fa-solid fa-robot"></i> الردود التلقائية</button>
+                <button class="tab-btn" data-target="tab-aliases" style="color: #cd84f1;"><i class="fa-solid fa-bolt"></i> اختصارات الأوامر</button>
+            </div>
+
+            <div class="user-profile" id="user-profile" style="display: none;">
+                <div class="user-info">
+                    <img src="" id="user-avatar" alt="User">
+                    <span id="user-name">User</span>
+                </div>
+                <div class="user-actions">
+                    <a href="/leaderboard.html" target="_blank" class="btn-icon" title="الليدربورد العام"><i class="fa-solid fa-trophy" style="color: #f1c40f;"></i></a>
+                    <a href="/api/logout" class="btn-icon btn-logout" title="تسجيل خروج"><i class="fa-solid fa-right-from-bracket"></i></a>
+                </div>
+            </div>
+        </aside>
+
+        
+        <main class="main-content">
+            <div class="header-text">
+                <h1><i class="fa-solid fa-gears" style="color: var(--blurple); margin-left: 10px;"></i> لوحة التحكم الذكية</h1>
+                <p>قم بتخصيص إعدادات سيرفرك، وتفعيل أنظمة الحماية المتطورة عبر واجهة سلسة واحترافية.</p>
+            </div>
+
+            <form id="config-form">
+                
+                
+                <div id="tab-channels" class="tab-content active">
+                    <div class="settings-grid">
+                        <div class="setting-card glass-panel">
+                            <h3><i class="fa-solid fa-server"></i> رومات عامة</h3>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-clipboard-list"></i> روم اللوج العام</label>
+                                <select id="logChannelId" name="logChannelId"><option value="">-- غير محدد --</option></select>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-gavel"></i> روم الجيل (Jail)</label>
+                                <select id="jailChannelId" name="jailChannelId"><option value="">-- غير محدد --</option></select>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-lightbulb"></i> الاقتراحات</label>
+                                <select id="suggestionChannelId" name="suggestionChannelId"><option value="">-- غير محدد --</option></select>
+                            </div>
+                        </div>
+
+                        <div class="setting-card glass-panel">
+                            <h3><i class="fa-solid fa-users"></i> الأعضاء والتفاعل</h3>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-door-open"></i> روم الترحيب</label>
+                                <select id="welcomeChannelId" name="welcomeChannelId"><option value="">-- غير محدد --</option></select>
+                            </div>
+                            <div class="form-group" style="padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 15px;">
+                                <label><i class="fa-solid fa-image" style="color: var(--blurple);"></i> خلفية الترحيب (رابط صورة)</label>
+                                <input type="text" id="welcomeBgUrl" name="welcomeBgUrl" placeholder="https://example.com/bg.png">
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-palette"></i> لون الخط/الدائرة (Hex)</label>
+                                <input type="color" id="welcomeColor" name="welcomeColor" value="#5865F2" class="color-picker">
+                            </div>
+                            <div class="form-group" style="padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 15px;">
+                                <label><i class="fa-solid fa-door-closed"></i> روم المغادرة</label>
+                                <select id="leaveChannelId" name="leaveChannelId"><option value="">-- غير محدد --</option></select>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-arrow-trend-up"></i> إشعارات التلفيل</label>
+                                <select id="levelChannelId" name="levelChannelId"><option value="">-- غير محدد --</option></select>
+                            </div>
+                        </div>
+
+                        <div class="setting-card glass-panel">
+                            <h3><i class="fa-solid fa-file-signature"></i> التقديمات (Forms)</h3>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-inbox"></i> روم استلام التقديمات</label>
+                                <select id="applicationLogChannelId" name="applicationLogChannelId"><option value="">-- غير محدد --</option></select>
+                            </div>
+                        </div>
+
+                        <div class="setting-card glass-panel" style="grid-column: 1 / -1; border: 1px solid rgba(241, 196, 15, 0.3);">
+                            <h3><i class="fa-solid fa-clipboard-list" style="color: #f1c40f;"></i> نظام اللوق المتطور (Advanced Logs)</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 20px;">حدد رومات مخصصة لتسجيل كل حركة تحدث في السيرفر.</p>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                                <div class="form-group">
+                                    <label><i class="fa-solid fa-trash"></i> لوق الرسائل المحذوفة</label>
+                                    <select id="logMessageDeleteId" name="logMessageDeleteId"><option value="">-- غير محدد --</option></select>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fa-solid fa-pen"></i> لوق الرسائل المعدلة</label>
+                                    <select id="logMessageUpdateId" name="logMessageUpdateId"><option value="">-- غير محدد --</option></select>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fa-solid fa-microphone"></i> لوق الرومات الصوتية</label>
+                                    <select id="logVoiceChannelId" name="logVoiceChannelId"><option value="">-- غير محدد --</option></select>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fa-solid fa-user-tag"></i> لوق الرتب والأعضاء</label>
+                                    <select id="logRoleUpdateId" name="logRoleUpdateId"><option value="">-- غير محدد --</option></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="setting-card glass-panel">
+                            <h3><i class="fa-solid fa-microphone"></i> الرومات الصوتية المؤقتة</h3>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-folder-tree"></i> كاتيجوري الرومات</label>
+                                <select id="tempVcCategoryId" name="tempVcCategoryId"><option value="">-- غير محدد --</option></select>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-plus-circle"></i> روم إنشاء روم صوتي (Hub)</label>
+                                <select id="tempVcHubId" name="tempVcHubId"><option value="">-- غير محدد --</option></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Roles -->
+                <div id="tab-roles" class="tab-content">
+                    <div class="settings-grid">
+                        <div class="setting-card glass-panel" style="grid-column: 1 / -1; max-width: 600px;">
+                            <h3><i class="fa-solid fa-shield-halved"></i> إعدادات الرتب</h3>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-microphone-lines-slash"></i> رتبة الميوت</label>
+                                <select id="mutedRoleId" name="mutedRoleId"><option value="">-- غير محدد --</option></select>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-lock"></i> رتبة الجيل</label>
+                                <select id="jailRoleId" name="jailRoleId"><option value="">-- غير محدد --</option></select>
+                            </div>
+                            <div class="form-group" style="padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 15px;">
+                                <label><i class="fa-solid fa-user-plus" style="color: var(--green);"></i> رتبة الدخول التلقائية (Auto Role)</label>
+                                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">سيتم تسليمها فور دخول أي عضو.</p>
+                                <select id="autoRoleId" name="autoRoleId"><option value="">-- معطل --</option></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Tickets -->
+                <div id="tab-tickets" class="tab-content">
+                    <div class="settings-grid">
+                        <div class="setting-card glass-panel" style="grid-column: 1 / -1; max-width: 600px;">
+                            <h3><i class="fa-solid fa-ticket"></i> إعدادات التيكت</h3>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-folder-open"></i> كاتيجوري التيكتات</label>
+                                <select id="ticketCategoryId" name="ticketCategoryId"><option value="">-- غير محدد --</option></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Embed Builder -->
+                <div id="tab-embeds" class="tab-content">
+                    <div class="settings-grid">
+                        <div class="setting-card glass-panel" style="grid-column: 1 / -1;">
+                            <h3><i class="fa-solid fa-wand-magic-sparkles"></i> صانع الإيمبدات (Embed Builder)</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 20px;">أرسل إيمبد مخصص لأي روم مباشر من هنا.</p>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+                                <div class="form-group">
+                                    <label><i class="fa-solid fa-paper-plane"></i> روم الإرسال *</label>
+                                    <select id="embedChannelId"><option value="">-- اختر الروم --</option></select>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fa-solid fa-heading"></i> العنوان</label>
+                                    <input type="text" id="embedTitle" placeholder="مثال: تحديثات السيرفر الجديدة">
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fa-solid fa-palette"></i> كود اللون (Hex)</label>
+                                    <input type="color" id="embedColor" value="#5865F2" class="color-picker">
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fa-solid fa-image"></i> رابط صورة (اختياري)</label>
+                                    <input type="text" id="embedImage" placeholder="https://example.com/image.png">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-align-right"></i> المحتوى (Description)</label>
+                                <textarea id="embedDescription" rows="5" class="custom-textarea" placeholder="محتوى الرسالة هنا..."></textarea>
+                            </div>
+                            
+                            <button type="button" class="btn-discord" id="btn-send-embed" style="margin-top: 10px;"><i class="fa-solid fa-paper-plane"></i> إرسال الإيمبد الآن</button>
+                            <span id="embed-status" class="status-msg"></span>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="tab-role-buttons" class="tab-content">
+                    <div class="settings-grid">
+                        <div class="setting-card glass-panel" style="grid-column: 1 / -1;">
+                            <h3><i class="fa-solid fa-fingerprint"></i> رسالة الرتب التفاعلية (Interactive Roles)</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 20px;">أرسل مسج يحتوي على أزرار ليقوم الأعضاء بالضغط عليها للحصول على الرتب التي تريدها.</p>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                                <div class="form-group">
+                                    <label><i class="fa-solid fa-paper-plane"></i> روم الإرسال *</label>
+                                    <select id="rbChannelId"><option value="">-- اختر الروم --</option></select>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fa-solid fa-heading"></i> عنوان الرسالة</label>
+                                    <input type="text" id="rbTitle">
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fa-solid fa-palette"></i> لون الشريط (Hex)</label>
+                                    <input type="color" id="rbEmbedColor" value="#23a559" class="color-picker">
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fa-solid fa-image"></i> صورة كبيرة (اختياري)</label>
+                                    <input type="text" id="rbImage">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-align-right"></i> الخطوات أو الوصف</label>
+                                <textarea id="rbDescription" rows="3" class="custom-textarea"></textarea>
+                            </div>
+                            
+                            
+                            <div class="role-button-list" style="margin-top: 30px;">
+                                <h4 style="margin-bottom: 15px; color: var(--green);"><i class="fa-solid fa-1"></i> إعداد الأزرار</h4>
+                                <div class="rb-row">
+                                    <select id="rbRole1"><option value="">-- اختر الرتبة الأولى --</option></select>
+                                    <input type="text" id="rbLabel1" placeholder="اسم الزر 1">
+                                    <select id="rbColor1">
+                                        <option value="Primary">بنفسجي</option><option value="Success">أخضر</option><option value="Danger">أحمر</option><option value="Secondary">رمادي</option>
+                                    </select>
+                                </div>
+                                <div class="rb-row" style="margin-top: 15px;">
+                                    <select id="rbRole2"><option value="">-- اختر الرتبة الثانية --</option></select>
+                                    <input type="text" id="rbLabel2" placeholder="اسم الزر 2">
+                                    <select id="rbColor2">
+                                        <option value="Success">أخضر</option><option value="Primary">بنفسجي</option><option value="Danger">أحمر</option><option value="Secondary">رمادي</option>
+                                    </select>
+                                </div>
+                                <div class="rb-row" style="margin-top: 15px;">
+                                    <select id="rbRole3"><option value="">-- اختر الرتبة الثالثة --</option></select>
+                                    <input type="text" id="rbLabel3" placeholder="اسم الزر 3">
+                                    <select id="rbColor3">
+                                        <option value="Danger">أحمر</option><option value="Primary">بنفسجي</option><option value="Success">أخضر</option><option value="Secondary">رمادي</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <button type="button" class="btn-discord" id="btn-send-rb" style="margin-top: 25px; background: var(--green);"><i class="fa-solid fa-share-nodes"></i> إطلاق رسالة الرتب المتفاعلة</button>
+                            <span id="rb-status" class="status-msg"></span>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="tab-autoresponders" class="tab-content">
+                    <div class="settings-grid">
+                        <div class="setting-card glass-panel" style="grid-column: 1 / -1;">
+                            <h3><i class="fa-solid fa-robot"></i> الردود التلقائية (Auto-Responders)</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 20px;">أضف كلمات معينة لكي يقوم البوت بالرد التلقائي عليها فور كتابتها.</p>
+                            
+                            <div class="inline-add-row">
+                                <div class="form-group">
+                                    <label><i class="fa-solid fa-comment-dots"></i> الكلمة (Trigger)</label>
+                                    <input type="text" id="arTrigger" placeholder="مثال: السلام عليكم">
+                                </div>
+                                <div class="form-group flex-grow-2">
+                                    <label><i class="fa-solid fa-reply"></i> الرد (Response)</label>
+                                    <input type="text" id="arResponse" placeholder="مثال: وعليكم السلام ورحمة الله!">
+                                </div>
+                                <button type="button" class="btn-discord btn-inline" id="btn-add-ar" style="background: var(--green);"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+
+                            <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05); margin: 25px 0;">
+
+                            <div id="ar-list-container" class="item-list-container">
+                                <p class="empty-msg" id="ar-empty-msg">لا يوجد ردود تلقائية حالياً.</p>
+                            </div>
+                            <span id="ar-status" class="status-msg"></span>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="tab-aliases" class="tab-content">
+                    <div class="settings-grid">
+                        <div class="setting-card glass-panel" style="grid-column: 1 / -1; border-color: rgba(155, 89, 182, 0.4);">
+                            <h3><i class="fa-solid fa-bolt" style="color: #cd84f1;"></i> اختصارات الأوامر (Command Aliases)</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 20px;">استبدل أوامر اللغة الأجنبية بكلمات عربية لتسهيل استخدام الأعضاء. (مثال: اختصار "مساعدة" للأمر "help").</p>
+                            
+                            <div class="inline-add-row">
+                                <div class="form-group">
+                                    <label><i class="fa-solid fa-terminal"></i> الاختصار الجديد</label>
+                                    <input type="text" id="aliasTrigger" placeholder="مثال: مساعدة">
+                                </div>
+                                <div class="form-group flex-grow-2">
+                                    <label><i class="fa-solid fa-code"></i> الأمر الأصلي</label>
+                                    <select id="aliasCommand"><option value="">-- اختر الأمر الأصلي --</option></select>
+                                </div>
+                                <button type="button" class="btn-discord btn-inline" id="btn-add-alias" style="background: #cd84f1;"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+
+                            <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05); margin: 25px 0;">
+
+                            <div id="alias-list-container" class="item-list-container">
+                                <p class="empty-msg" id="alias-empty-msg">لا يوجد اختصارات مضافة حالياً.</p>
+                            </div>
+                            <span id="alias-status" class="status-msg" style="color: #cd84f1;"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </main>
+    </div>
+
+    
+    <div class="save-bar">
+        <span class="save-status" id="save-status"><i class="fa-solid fa-circle-check"></i> تم الحفظ بنجاح!</span>
+        <button type="button" class="btn-save" id="btn-save"><i class="fa-solid fa-floppy-disk"></i> حفظ التغييرات الآن</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
